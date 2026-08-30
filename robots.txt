@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dj.firstclassmediagroup.com/sitemap.xml
+Sitemap: https://dj1stclass.com/sitemap.xml

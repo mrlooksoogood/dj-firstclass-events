@@ -4,6 +4,3 @@ build_preview.py
 build_og.py
 __pycache__/
 *.pyc
-
-# Custom-domain marker is added in a later step (after DNS)
-CNAME
