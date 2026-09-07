@@ -55,10 +55,10 @@ img, video { display: block; max-width: 100%; }
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--gold);
-  display: inline-flex; align-items: center; gap: 10px;
 }
 .eyebrow::before {
-  content: ""; width: 22px; height: 1px; background: var(--gold); opacity: 0.7;
+  content: ""; display: inline-block; width: 22px; height: 1px;
+  background: var(--gold); opacity: 0.7; vertical-align: middle; margin-right: 10px;
 }
 
 .section-head { max-width: 640px; margin: 0 0 clamp(28px, 5vw, 52px); }
@@ -122,15 +122,26 @@ img, video { display: block; max-width: 100%; }
     radial-gradient(45% 65% at 8% 95%, rgba(232, 184, 75, 0.06), transparent 60%),
     linear-gradient(180deg, var(--ink-2), var(--ink));
 }
+/* static deck still — no-JS + pre-load fallback under the canvas */
 .hero__bg {
-  position: absolute; inset: 0; z-index: 0; opacity: 0.6;
-  background: url("assets/hero.jpg") center 38% / cover no-repeat;
+  position: absolute; inset: 0; z-index: 0; opacity: 0.95;
+  background: url("assets/hero-deck-v2.jpg") 56% 46% / cover no-repeat;
+  filter: brightness(1.22) contrast(1.04) saturate(1.05);
+}
+/* Kling-animated deck video (mixer lights flicker); same framing as .hero__bg */
+.hero__video {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0;
+  object-fit: cover; object-position: 56% 46%; opacity: 1;
+  filter: brightness(1.22) contrast(1.04) saturate(1.05);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__video { display: none; } /* fall back to the static deck still */
 }
 .hero__scrim {
   position: absolute; inset: 0; z-index: 1;
   background:
-    linear-gradient(180deg, rgba(11,11,18,0.55), rgba(11,11,18,0.82)),
-    linear-gradient(90deg, rgba(11,11,18,0.75) 0%, rgba(11,11,18,0.2) 60%, transparent 100%);
+    linear-gradient(180deg, rgba(11,11,18,0.28), rgba(11,11,18,0.58)),
+    linear-gradient(90deg, rgba(11,11,18,0.80) 0%, rgba(11,11,18,0.30) 55%, rgba(11,11,18,0.03) 100%);
 }
 .hero__inner {
   position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; width: 100%;
@@ -234,6 +245,62 @@ img, video { display: block; max-width: 100%; }
 }
 .gallery__item.is-empty .gallery__placeholder { display: flex; }
 .gallery__item.is-empty img, .gallery__item.is-empty video { display: none; }
+
+/* ---------- the fare / pricing ---------- */
+.fare { max-width: var(--maxw); margin: 0 auto; padding: clamp(30px, 6vw, 60px) var(--pad); }
+.fare-card {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 88% 8%, rgba(232,184,75,0.16), transparent 58%),
+    linear-gradient(180deg, var(--panel), var(--ink-2));
+  border: 1px solid rgba(232,184,75,0.28); border-radius: var(--radius);
+  padding: clamp(26px, 4vw, 40px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+  display: grid; gap: clamp(22px, 3vw, 30px);
+}
+.fare-card::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: linear-gradient(180deg, var(--gold-2), var(--gold-deep));
+}
+.fare-card__rate { display: flex; align-items: baseline; gap: 6px; }
+.fare-card__amt {
+  font-family: var(--font-display); font-weight: 800; line-height: 1;
+  font-size: clamp(46px, 11vw, 72px); letter-spacing: -0.03em;
+  background: linear-gradient(120deg, var(--champ), var(--gold-2) 45%, var(--gold-deep));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.fare-card__unit { font-family: var(--font-display); font-weight: 700; font-size: clamp(1rem, 3vw, 1.4rem); color: var(--muted); }
+.fare-card__min {
+  margin-top: 8px; font-family: var(--font-mono);
+  font-size: 13px; letter-spacing: 0.06em; color: var(--muted);
+}
+.fare-card__min strong { color: var(--gold-2); font-weight: 700; }
+.fare-card__list { list-style: none; display: grid; gap: 12px; }
+.fare-card__list li {
+  position: relative; padding-left: 30px; font-size: 1rem; color: var(--cream);
+}
+.fare-card__list li::before {
+  content: "✓"; position: absolute; left: 0; top: 1px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-2), var(--gold));
+  color: var(--ink); display: grid; place-items: center; font-size: 12px; font-weight: 700;
+}
+.fare-card__cta { display: grid; gap: 12px; justify-items: start; }
+.fare-card__cta .btn { width: 100%; }
+.fare-card__note { font-size: 0.88rem; color: rgba(169,164,188,0.8); }
+
+/* two columns once there's room: price rail + included list */
+@media (min-width: 720px) {
+  .fare-card {
+    grid-template-columns: minmax(220px, 0.8fr) 1.2fr;
+    grid-template-areas: "price list" "cta list";
+    align-items: start; column-gap: clamp(30px, 5vw, 56px);
+  }
+  .fare-card__price { grid-area: price; }
+  .fare-card__list { grid-area: list; }
+  .fare-card__cta { grid-area: cta; align-self: end; }
+  .fare-card__cta .btn { width: auto; }
+}
 
 /* ---------- booking: boarding pass ---------- */
 .book { max-width: var(--maxw); margin: 0 auto; padding: clamp(40px, 7vw, 80px) var(--pad) clamp(70px, 10vw, 120px); }
@@ -351,6 +418,9 @@ img, video { display: block; max-width: 100%; }
   /* mobile-first polish: headline + CTA lead, thumb-sized full-width buttons */
   .hero { min-height: auto; padding-top: 40px; padding-bottom: 48px; }
   .hero h1 { margin: 14px 0 16px; }
+  .eyebrow { font-size: 10.5px; letter-spacing: 0.12em; }
+  .hero__bg { background-position: 62% 42%; }
+  .hero__video { object-position: 62% 42%; }
   .hero__actions { margin-top: 24px; }
   .hero__actions .btn, .pass__actions .btn { flex: 1 1 100%; }
   .wave { height: 34px; margin-top: 30px; }

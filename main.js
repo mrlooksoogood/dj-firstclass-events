@@ -40,17 +40,17 @@
       .then(function (res) {
         if (res.ok) {
           form.reset();
-          setStatus("Got it — your request is in. We’ll reply from djfirstclassevents@gmail.com, usually same day.", "ok");
+          setStatus("Got it — your request is in. We’ll reply, usually same day.", "ok");
         } else {
           return res.json().then(function (data) {
             var msg = data && data.errors ? data.errors.map(function (x) { return x.message; }).join(", ")
                                           : "Something went wrong.";
-            setStatus(msg + " You can also email djfirstclassevents@gmail.com directly.", "err");
+            setStatus(msg + " You can also email bookings@dj1stclass.com directly.", "err");
           });
         }
       })
       .catch(function () {
-        setStatus("Network hiccup — please email djfirstclassevents@gmail.com and we’ll lock your date.", "err");
+        setStatus("Network hiccup — please email bookings@dj1stclass.com and we’ll lock your date.", "err");
       })
       .finally(function () {
         if (btn) { btn.disabled = false; btn.textContent = original; }
