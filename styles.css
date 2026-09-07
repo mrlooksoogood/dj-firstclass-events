@@ -147,6 +147,19 @@ img, video { display: block; max-width: 100%; }
   position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; width: 100%;
 }
 .hero__copy { max-width: 620px; }
+
+/* hero eyebrow: gold "First Class" ticket badge + destination (distinct ideas) */
+.hero-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em;
+  text-transform: uppercase; display: flex; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+}
+.hero-eyebrow__badge {
+  color: var(--gold-2); font-weight: 700; letter-spacing: 0.14em;
+  border: 1px solid rgba(232, 184, 75, 0.5); border-radius: 999px;
+  padding: 5px 12px; background: rgba(232, 184, 75, 0.08);
+}
+.hero-eyebrow__route { color: var(--cream); letter-spacing: 0.18em; }
 .hero h1 {
   font-family: var(--font-display); font-weight: 800;
   font-size: clamp(42px, 9vw, 92px); line-height: 0.98;
@@ -419,6 +432,8 @@ img, video { display: block; max-width: 100%; }
   .hero { min-height: auto; padding-top: 40px; padding-bottom: 48px; }
   .hero h1 { margin: 14px 0 16px; }
   .eyebrow { font-size: 10.5px; letter-spacing: 0.12em; }
+  .hero-eyebrow { font-size: 11px; gap: 9px; letter-spacing: 0.12em; }
+  .hero-eyebrow__route { letter-spacing: 0.12em; }
   .hero__bg { background-position: 62% 42%; }
   .hero__video { object-position: 62% 42%; }
   .hero__actions { margin-top: 24px; }
